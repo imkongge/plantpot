@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Birthday Flower Pot Custom Designer</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/interactjs@1.10.18/dist/interact.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="loader"></div>
+        <p>Generating your design...</p>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="success-icon">✓</div>
+            <h2>Submitted Successfully!</h2>
+            <p>Your design has been submitted. We will process it shortly.</p>
+            <button class="btn-primary" onclick="closeSuccessModal()">OK</button>
+        </div>
+    </div>
+
+    <!-- Main App Container -->
+    <div class="app-container">
+        <!-- Top: Preview Canvas (Sticky) -->
+        <div class="preview-section">
+            <div class="preview-header">
+                <h1>Flower Pot Designer</h1>
+                <p class="subtitle-text">Drag flowers & text onto the pot</p>
+            </div>
+            
+            <!-- Canvas Container -->
+            <div class="canvas-wrapper" id="canvasWrapper">
+                <!-- Decorative Frame -->
+                <div class="decorative-frame">
+                    <!-- Corner Decorations -->
+                    <div class="corner-decor top-left">
+                        <svg viewBox="0 0 60 60" class="corner-svg">
+                            <path d="M5 55 Q5 30 30 30 Q30 5 55 5" fill="none" stroke="#e88d9c" stroke-width="2"/>
+                            <circle cx="8" cy="52" r="4" fill="#f4a261"/>
+                            <circle cx="15" cy="45" r="3" fill="#7eb8a8"/>
+                            <path d="M20 40 Q25 35 30 40 Q35 45 30 50 Q25 55 20 50 Q15 45 20 40" fill="#e88d9c" opacity="0.7"/>
+                        </svg>
+                    </div>
+                    <div class="corner-decor top-right">
+                        <svg viewBox="0 0 60 60" class="corner-svg">
+                            <path d="M55 55 Q55 30 30 30 Q30 5 5 5" fill="none" stroke="#7eb8a8" stroke-width="2"/>
+                            <circle cx="52" cy="52" r="4" fill="#f4a261"/>
+                            <circle cx="45" cy="45" r="3" fill="#e88d9c"/>
+                            <path d="M40 40 Q45 35 50 40 Q55 45 50 50 Q45 55 40 50 Q35 45 40 40" fill="#7eb8a8" opacity="0.7"/>
+                        </svg>
+                    </div>
+                    <div class="corner-decor bottom-left">
+                        <svg viewBox="0 0 60 60" class="corner-svg">
+                            <path d="M5 5 Q5 30 30 30 Q30 55 55 55" fill="none" stroke="#f4a261" stroke-width="2"/>
+                            <circle cx="8" cy="8" r="4" fill="#7eb8a8"/>
+                            <circle cx="15" cy="15" r="3" fill="#e88d9c"/>
+                            <path d="M20 20 Q25 25 30 20 Q35 15 30 10 Q25 5 20 10 Q15 15 20 20" fill="#f4a261" opacity="0.7"/>
+                        </svg>
+                    </div>
+                    <div class="corner-decor bottom-right">
+                        <svg viewBox="0 0 60 60" class="corner-svg">
+                            <path d="M55 5 Q55 30 30 30 Q30 55 5 55" fill="none" stroke="#e88d9c" stroke-width="2"/>
+                            <circle cx="52" cy="8" r="4" fill="#7eb8a8"/>
+                            <circle cx="45" cy="15" r="3" fill="#f4a261"/>
+                            <path d="M40 20 Q45 25 50 20 Q55 15 50 10 Q45 5 40 10 Q35 15 40 20" fill="#e88d9c" opacity="0.7"/>
+                        </svg>
+                    </div>
+                    
+                    <!-- Top Decorative Flowers -->
+                    <div class="deco-flower deco-flower-1">
+                        <svg viewBox="0 0 40 40">
+                            <circle cx="20" cy="12" r="6" fill="#e88d9c"/>
+                            <circle cx="12" cy="20" r="6" fill="#f4a261"/>
+                            <circle cx="28" cy="20" r="6" fill="#7eb8a8"/>
+                            <circle cx="14" cy="28" r="6" fill="#e88d9c"/>
+                            <circle cx="26" cy="28" r="6" fill="#f4a261"/>
+                            <circle cx="20" cy="20" r="5" fill="#fff" opacity="0.8"/>
+                        </svg>
+                    </div>
+                    <div class="deco-flower deco-flower-2">
+                        <svg viewBox="0 0 40 40">
+                            <circle cx="20" cy="12" r="6" fill="#7eb8a8"/>
+                            <circle cx="12" cy="20" r="6" fill="#e88d9c"/>
+                            <circle cx="28" cy="20" r="6" fill="#f4a261"/>
+                            <circle cx="14" cy="28" r="6" fill="#7eb8a8"/>
+                            <circle cx="26" cy="28" r="6" fill="#e88d9c"/>
+                            <circle cx="20" cy="20" r="5" fill="#fff" opacity="0.8"/>
+                        </svg>
+                    </div>
+                    
+                    <!-- Butterfly Decorations -->
+                    <div class="deco-butterfly butterfly-1">
+                        <svg viewBox="0 0 30 24">
+                            <path d="M15 12 Q5 2 2 12 Q5 22 15 12" fill="#e88d9c" opacity="0.8"/>
+                            <path d="M15 12 Q25 2 28 12 Q25 22 15 12" fill="#f4a261" opacity="0.8"/>
+                            <ellipse cx="15" cy="12" rx="2" ry="6" fill="#333"/>
+                            <circle cx="6" cy="10" r="2" fill="#fff" opacity="0.5"/>
+                            <circle cx="24" cy="10" r="2" fill="#fff" opacity="0.5"/>
+                        </svg>
+                    </div>
+                    <div class="deco-butterfly butterfly-2">
+                        <svg viewBox="0 0 30 24">
+                            <path d="M15 12 Q5 2 2 12 Q5 22 15 12" fill="#7eb8a8" opacity="0.8"/>
+                            <path d="M15 12 Q25 2 28 12 Q25 22 15 12" fill="#e88d9c" opacity="0.8"/>
+                            <ellipse cx="15" cy="12" rx="2" ry="6" fill="#333"/>
+                            <circle cx="6" cy="10" r="2" fill="#fff" opacity="0.5"/>
+                            <circle cx="24" cy="10" r="2" fill="#fff" opacity="0.5"/>
+                        </svg>
+                    </div>
+                </div>
+                
+                <div class="pot-container" id="potContainer">
+                    <!-- Safe Area Indicator -->
+                    <div class="safe-area" id="safeArea">
+                        <!-- Draggable elements will be placed here -->
+                        <div id="canvasElements">
+                            <!-- Title -->
+                            <div class="canvas-element draggable-text title-element" 
+                                 id="titleElement" 
+                                 data-type="title"
+                                 style="left: 50%; top: calc(82% - 7px); transform: translateX(-50%);">
+                                <span class="element-text">Mom's Garden</span>
+                            </div>
+                            
+                            <!-- Subtitle -->
+                            <div class="canvas-element draggable-text subtitle-element" 
+                                 id="subtitleElement" 
+                                 data-type="subtitle"
+                                 style="left: 50%; top: 87%; transform: translateX(-50%);">
+                                <span class="element-text">Love grows here</span>
+                            </div>
+                            
+                            <!-- Flowers will be dynamically added here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+
+        <!-- Bottom: Control Panel (Scrollable) -->
+        <div class="control-panel">
+            <!-- Section 2: Global Text Settings -->
+            <div class="control-section">
+                <h2 class="section-title">
+                    <span class="icon">✏️</span>
+                    Global Text
+                </h2>
+                <div class="form-group">
+                    <label>Main Title</label>
+                    <input type="text" id="titleInput" value="Mom's Garden" maxlength="30">
+                </div>
+                <div class="form-group">
+                    <label>Subtitle / Blessing</label>
+                    <input type="text" id="subtitleInput" value="Love grows here" maxlength="50">
+                </div>
+            </div>
+
+            <!-- Section 3: Flower Management -->
+            <div class="control-section">
+                <h2 class="section-title">
+                    <span class="icon">🌸</span>
+                    Flowers
+                    <span class="flower-count" id="flowerCount">0</span>
+                </h2>
+                
+                <!-- Warning Messages -->
+                <div class="warning-messages">
+                    <div class="warning crowded-warning hidden" id="crowdedWarning">
+                        <span class="warning-icon">⚠️</span>
+                        <span class="warning-text">Note: Many flowers may result in smaller patterns. Very small prints may affect clarity.</span>
+                    </div>
+                </div>
+                
+                <!-- Flower Cards Container -->
+                <div class="flower-cards" id="flowerCards">
+                    <!-- Flower cards will be dynamically added here -->
+                </div>
+                
+                <!-- Add Flower Button -->
+                <button class="btn-add-flower" id="addFlowerBtn">
+                    <span class="btn-icon">+</span>
+                    <span>Add a Flower</span>
+                </button>
+            </div>
+
+            <!-- Section 4: Text Summary -->
+            <div class="control-section">
+                <h2 class="section-title">
+                    <span class="icon">📋</span>
+                    Order Summary
+                </h2>
+                <div class="text-summary" id="textSummary">
+                    <div class="summary-item">Title: Mom's Garden</div>
+                    <div class="summary-item">Subtitle: Love grows here</div>
+                    <div class="summary-divider"></div>
+                    <div class="summary-flowers" id="summaryFlowers">
+                        <!-- Dynamic flower summary -->
+                    </div>
+                </div>
+                <button class="btn-copy" id="copyBtn">
+                    <span class="btn-icon">📋</span>
+                    <span>Copy Summary</span>
+                </button>
+            </div>
+
+            <!-- Section 5: Order Submission -->
+            <div class="control-section submission-section">
+                <h2 class="section-title">
+                    <span class="icon">🚀</span>
+                    Submit Order
+                </h2>
+                <div class="form-group">
+                    <label>Order # or Email <span class="required">*</span></label>
+                    <input type="text" id="orderId" placeholder="Enter Etsy order # or email" required>
+                </div>
+                <button class="btn-submit" id="submitBtn">
+                    <span class="btn-icon">✓</span>
+                    <span>Submit Design</span>
+                </button>
+                <p class="submission-note">
+                    Your design image will be generated and sent to our system
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Month Picker Modal -->
+    <div class="modal hidden" id="monthPickerModal">
+        <div class="modal-content month-picker">
+            <div class="modal-header">
+                <h3>Select Birth Month</h3>
+                <button class="modal-close" onclick="closeMonthPicker()">×</button>
+            </div>
+            <div class="month-swatches">
+                <!-- 12 month swatches will be rendered by JS -->
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
